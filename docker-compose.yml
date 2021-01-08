@@ -1,0 +1,13 @@
+version: '3'
+services:
+  mongo_db:
+    image: "mongo"
+    environment: 
+      - MONGO_INITDB_DATABASE=blog
+      - MONGO_INITDB_ROOT_USERNAME=blog
+      - MONGO_INITDB_ROOT_PASSWORD=9028fnv20b20nv
+    volumes:
+      - /srv/blog_mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - /srv/blog_mongo/data:/data/db
+    ports:
+      - '27017-27019:27017-27019'
