@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import User from './user'
+import Post from './post'
+import Counter from './counter'
 
-import User from './user';
-
-const models = { User };
+const models = { User, Post, Counter }
 
 export default models;

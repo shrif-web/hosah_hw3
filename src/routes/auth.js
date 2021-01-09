@@ -23,7 +23,6 @@ router.post('/signup', async(req, res) => {
     const user = await User.findOne({
         email: email
     })
-    console.log(user)
     if (user) {
         return res.status(409).send({
             message: 'email already exists'
@@ -62,7 +61,7 @@ router.post('/signin', async (req, res) => {
         return res.status(401).send({ message: 'wrong email or password' })
     }
 
-    const token = await jwt.sign({ id: user._id }, SECRET_KEY)
+    const token = await jwt.sign({ _id: user._id }, SECRET_KEY)
     return res.send({ 'token': `Bearer ${token}` });
 });
 

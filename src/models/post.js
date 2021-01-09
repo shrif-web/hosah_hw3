@@ -1,19 +1,23 @@
 import mongoose from 'mongoose'
 
-import { USER_COUNTER_ID } from '../config'
 import Counter from './counter'
+import { POST_COUNTER_ID } from '../config/index'
 
-const userSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
     id: {
         type: String,
     },
-    email: {
+    title: {
         type: String,
         required: true
     },
-    password: {
+    content: {
         type: String,
-        required: true
+        require: true
+    },
+    created_by: {
+        type: String,
+        ref: 'User'
     },
     created_at: {
         type: Date,
@@ -21,12 +25,12 @@ const userSchema = mongoose.Schema({
     }
 })
 
-userSchema.pre('save', function (next) {
+postSchema.pre('save', function (next) {
     const doc = this
     if (doc.id) {
         next()
     }
-    Counter.findByIdAndUpdate({ _id: USER_COUNTER_ID }, { $inc: { seq: 1 } }, (error, counter) => {
+    Counter.findByIdAndUpdate({ _id: POST_COUNTER_ID }, { $inc: { seq: 1 } }, (error, counter) => {
         if (error)
             return next(error)
         doc.id = counter.seq
@@ -34,6 +38,6 @@ userSchema.pre('save', function (next) {
     })
 })
 
-const User = mongoose.model('User', userSchema)
+const Post = mongoose.model('Post', postSchema)
 
-export default User
+export default Post
